@@ -8,6 +8,8 @@
       }
     </style>
     <script type="text/javascript" src="UI.js"></script>
+    <script type="text/javascript" src="state.js"></script>
+    <script type="text/javascript" src="ai.js"></script>
   </head>
   <body>
     
@@ -16,12 +18,32 @@
 
     <script>
       UI.init("tblPuzzle");
-      var board = [];
-      for(var i = 0; i < 25; i++){
-        board.push(i + 1);
+      var boardEnd = [];//[1,2,3,4,5,6,7,8,"b"];
+      var boardStart;// = [1,2,3,4,"b",6,7,5,8];
+      for(var i = 0; i < 8; i++){
+        boardEnd.push((i + 1).toString());
       }
-      UI.DrawBoard(board);
-      var b = UI.ReadBoard();
+      boardEnd.push("b");
+      boardStart = JSON.parse(JSON.stringify(boardEnd));
+      boardStart = UI.Shuffle(boardStart);
+
+      UI.DrawBoard(boardStart);
+      var b = UI.ReadBoard2();
+      var newState = AI.createState(b, boardEnd);
+      //var newState = null;//AI.makeMove(state);
+      do{
+        newState = AI.makeMove(newState);
+        
+        if(newState !== null){
+          debugger;
+          UI.DrawBoard(newState.GetflatBoard());
+          console.log(newState.GetflatBoard());
+        }
+        else{
+          alert("Your starting array was impossible to solve!");
+        }
+      }while(newState !== null && newState.score > 0);
+      
       //console.log(b.join(","));
     </script>
  </body>

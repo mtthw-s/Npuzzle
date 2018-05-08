@@ -1,13 +1,13 @@
 (function(window){
 	function UI(){
+		var self = this;
 	  var tblID = "tblPuzzle";
-	  
 	  /*
 	  Public function
 	  This will initialize the board's table ID value.
 	  If no value is given or if the function is not used the default "tblPuzzle" will be used
 	  */
-	  this.init = function(_tblID){
+	  self.init = function(_tblID){
 	    var id = _tblID;
 	    if(id){
 	      tblID = _tblID;
@@ -19,7 +19,7 @@
 	  This will draw a HTML board given an array of values.
 	  The number of values MUST have an even square root.
 	  */
-		this.DrawBoard = function(brdArray){
+	  self.DrawBoard = function(brdArray){
 		  var rowLength = Math.sqrt(brdArray.length);
 		  var tbl = document.getElementById(tblID);
 		  var startVals = 0;
@@ -31,12 +31,31 @@
         startVals += rowLength;
 		  }
 		}
+
+		self.Shuffle = function(array){
+			var currentIndex = array.length, temporaryValue, randomIndex;
+
+			// While there remain elements to shuffle...
+			while (0 !== currentIndex) {
+
+				// Pick a remaining element...
+				randomIndex = Math.floor(Math.random() * currentIndex);
+				currentIndex -= 1;
+
+				// And swap it with the current element.
+				temporaryValue = array[currentIndex];
+				array[currentIndex] = array[randomIndex];
+				array[randomIndex] = temporaryValue;
+			}
+
+			return array;
+		}
 		
 		/*
 		Public function
 		This will read out all the cell values from the HTML table board and return a one dimentional array
 		*/
-		this.ReadBoard = function(){
+		self.ReadBoard = function(){
 		  var table = document.getElementById(tblID);
 		  var board = [];
 		  for(var i = 0; i < table.rows.length; i++){
@@ -48,7 +67,7 @@
 		  return board;
 		}
 		
-		this.ReadBoard2 = function(){
+		self.ReadBoard2 = function(){
 		  var table = document.getElementById(tblID);
 		  var board = [];
 		  for(var i = 0; i < table.rows.length; i++){
