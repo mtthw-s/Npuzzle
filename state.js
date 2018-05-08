@@ -58,7 +58,7 @@ function State(state){
       if(i != pos && pos > -1 && self.board[i].val != "b"){
         score += Math.abs(parseInt(self.board[i].row) - parseInt(self.board[pos].row));
         score += Math.abs(parseInt(self.board[i].col) - parseInt(self.board[pos].col));
-        if((parseInt(self.board[pos].col) == parseInt(self.board[i].col)) || (parseInt(self.board[pos].row) == parseInt(self.board[i].row))){
+        if((parseInt(self.board[pos].col) == parseInt(self.board[i].col)) || (parseInt(self.board[pos].row) == parseInt(self.board[i].row)) && self.board[pos].val != "b"){
           lin++;
         }
       }

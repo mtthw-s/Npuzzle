@@ -37,19 +37,21 @@
       
       
       function run(start, end){
+        var init = start.toString();
         UI.DrawBoard(start);
+        var final;
         var b = UI.ReadBoard2();
         var newState = AI.createState(b, end);
         do{
           newState = AI.makeMove(newState);
           
-          
           if(newState !== null){
             UI.DrawBoard(newState.GetflatBoard());
-            console.log(newState.GetflatBoard() + " score:" + newState.score + " inversion:" + getInversionCount(newState.GetflatBoard()));
+            console.log(newState.GetflatBoard().toString() + " score:" + newState.score + " inversion:" + getInversionCount(newState.GetflatBoard()));
+            final = newState.GetflatBoard();
           }
           else{
-            alert("Your starting array was impossible to solve!");
+            alert("Your starting array was impossible to solve! " + getInversionCount(final) + "\n" + init);
           }
         }while(newState !== null && newState.score > 0);
       }
@@ -73,9 +75,9 @@
       var boards;
       UI.init("tblPuzzle");
       do{
-        boards = Setup(8);
+        boards = Setup(15);
       }while(getInversionCount(boards[0]) % 2 !== 0)
-      
+      //var initial = boards[0].toString()
       alert(getInversionCount(boards[0]));
       console.log(boards[0].toString());
       run(boards[0], boards[1]);
