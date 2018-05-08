@@ -38,38 +38,52 @@
         start = UI.Shuffle(start);
         return [start, end];
       }
+
+      function Shuffle(state){
+        
+        return AI.ShuffleBoard(state);
+
+      }
       
       
       function run(start, end){
         UI.DrawBoard(start);
         var b = UI.ReadBoard2();
-        //debugger;
         var newState = AI.createState(b, end);
-        //var newState = null;//AI.makeMove(state);
         do{
           newState = AI.makeMove(newState);
           
           
           if(newState !== null){
-            //debugger;
             UI.DrawBoard(newState.GetflatBoard());
             console.log(newState.GetflatBoard() + " score:" + newState.score + " inversion:" + getInversionCount(newState.GetflatBoard()));
-            //sleep(1000);
           }
           else{
             alert("Your starting array was impossible to solve!");
           }
         }while(newState !== null && newState.score > 0);
       }
-      var boards = [];
+      
+      function Setup(num){
+        var end = [];
+        var start;
+        for(var i = 0; i < num; i++){
+          end.push((i + 1).toString());
+        }
+        end.push("b");
+        start = JSON.parse(JSON.stringify(end));
+        UI.DrawBoard(start);
+        var b = UI.ReadBoard2();
+        var state = new State();
+        state.board = b;
+        state = Shuffle(state);
+        return [state.GetflatBoard(), end];
+      }
+      
+      var boards;
       UI.init("tblPuzzle");
-      var boardEnd = [];//["1","2","3","4","5","6","7","8","b"];
-      var boardStart = [];//["7","1","3","4","2","6","b","5","8"];
       do{
-        boards = [["1","2","6","5","3","8","b","7","4"],["1","2","3","4","5","6","7","8","b"]];
-        //boardEnd = [];
-        //boardStart = [];
-        //boards = test(8, boards[0], boards[1]);
+        boards = Setup(35);//[["1","2","6","5","3","8","b","7","4"],["1","2","3","4","5","6","7","8","b"]];
       }while(getInversionCount(boards[0]) % 2 !== 0)
       
       alert(getInversionCount(boards[0]));

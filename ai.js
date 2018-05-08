@@ -78,6 +78,28 @@
 		// 	return -1;
 		// }
 
+		self.ShuffleBoard = function(state){
+			var count = state.board.length * 2;
+			for(var i = 0; i < count; i++){
+				var moves = state.FindNewPossibleStates();
+				state = GetRandomState(moves);
+			}
+			return state;
+		};
+
+		function GetRandomNumber(min, max){
+			min = Math.ceil(min);
+			max = Math.floor(max);
+			return Math.floor(Math.random() * (max - min + 1)) + min;
+		}
+
+		function GetRandomState(mvs){
+			var rnd = GetRandomNumber(0, mvs.length - 1);
+			var s = new State();
+			s.board = mvs[rnd];
+			return s;
+		}
+
 		self.makeMove = function(state){
 			var moves = state.FindNewPossibleStates();
 			var test = [];
