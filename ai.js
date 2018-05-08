@@ -23,6 +23,44 @@
 			}
 			return test.indexOf(array1d.toString());
 		}
+		
+		function FindDups(s){
+			var sString = s.GetflatBoard().toString();
+			var aString = array1d.toString();
+			return sString == aString;
+    }
+    
+    function RemoveIndexesFromArray(indexes, array){
+      var newArray = [];
+      var count = 0;
+      for(var i = 0; i < array.length; i++){
+        if(indexes.indexOf(i) == -1){
+          newArray.push(array[i]);
+        }
+        else{
+          count++;
+        }
+      }
+      if(newArray.length === 0 && count != array.length){
+        return array;
+      }
+      return newArray;
+    }
+		
+		function RemoveDeadStates(states){
+		  var deadIndexes = [];
+		  var test = [];
+			for(var i = 0; i < deadStates.length; i++){
+				test.push(deadStates[i].GetflatBoard().toString());
+			}
+		  for(var j = 0; j < states.length; j++){
+		    var pos = test.indexOf(states[j].GetflatBoard().toString());
+		    if(pos > -1){
+		      deadIndexes.push(j);
+		    }
+		  }
+		  return RemoveIndexesFromArray(deadIndexes, states);
+		}
 
 		// self.checkDeadStates = function(array1d){
 		// 	for(var i = 0; i < deadStates.length; i++){
@@ -51,15 +89,16 @@
 				moves[i] = s;
 				moves[i].score = moves[i].CalculateScore2(goal, moves[i].GetflatBoard());
 				test.push(moves[i].GetflatBoard());
-				var pos = self.checkDeadStates2(moves[i].GetflatBoard());
-				if(pos > -1){
-					deadMoves.push(pos);
+				//var pos = self.checkDeadStates2(moves[i].GetflatBoard());
+				//if(pos > -1){
+					//deadMoves.push(pos);
 					//moves.splice(pos, 1);
-				}
+				//}
 			}
-			for(var i = 0; i < deadMoves.length; i++){
-				moves.splice(deadMoves[i], 1);
-			}
+			moves = RemoveDeadStates(moves);
+			//for(var i = 0; i < deadMoves.length; i++){
+				//moves.splice(deadMoves[i], 1);
+			//}
 			// moves.map(function(s){
 			// 	s.CalculateAndSetScore(goal);
 			// 	return s;

@@ -17,32 +17,68 @@
     
 
     <script>
-      UI.init("tblPuzzle");
-      var boardEnd = [];//[1,2,3,4,5,6,7,8,"b"];
-      var boardStart;// = [1,2,3,4,"b",6,7,5,8];
-      for(var i = 0; i < 8; i++){
-        boardEnd.push((i + 1).toString());
+      function getInversionCount(array){
+        var count = 0;
+        for(var i = 0; i < array.length; i++){
+          for(var j = i; j < array.length; j++){
+            if(array[i] != "b" && array[j] != "b" && parseInt(array[i]) > parseInt(array[j])){
+              count++;
+            }
+          }
+        }
+        return count;
       }
-      boardEnd.push("b");
-      boardStart = JSON.parse(JSON.stringify(boardEnd));
-      boardStart = UI.Shuffle(boardStart);
-
-      UI.DrawBoard(boardStart);
-      var b = UI.ReadBoard2();
-      var newState = AI.createState(b, boardEnd);
-      //var newState = null;//AI.makeMove(state);
+      
+      function test(num, start, end){
+        for(var i = 0; i < num; i++){
+          end.push((i + 1).toString());
+        }
+        end.push("b");
+        start = JSON.parse(JSON.stringify(end));
+        start = UI.Shuffle(start);
+        return [start, end];
+      }
+      
+      
+      function run(start, end){
+        UI.DrawBoard(start);
+        var b = UI.ReadBoard2();
+        //debugger;
+        var newState = AI.createState(b, end);
+        //var newState = null;//AI.makeMove(state);
+        do{
+          newState = AI.makeMove(newState);
+          
+          
+          if(newState !== null){
+            //debugger;
+            UI.DrawBoard(newState.GetflatBoard());
+            console.log(newState.GetflatBoard() + " score:" + newState.score + " inversion:" + getInversionCount(newState.GetflatBoard()));
+            //sleep(1000);
+          }
+          else{
+            alert("Your starting array was impossible to solve!");
+          }
+        }while(newState !== null && newState.score > 0);
+      }
+      var boards = [];
+      UI.init("tblPuzzle");
+      var boardEnd = [];//["1","2","3","4","5","6","7","8","b"];
+      var boardStart = [];//["7","1","3","4","2","6","b","5","8"];
       do{
-        newState = AI.makeMove(newState);
-        
-        if(newState !== null){
-          debugger;
-          UI.DrawBoard(newState.GetflatBoard());
-          console.log(newState.GetflatBoard());
-        }
-        else{
-          alert("Your starting array was impossible to solve!");
-        }
-      }while(newState !== null && newState.score > 0);
+        boards = [["1","2","6","5","3","8","b","7","4"],["1","2","3","4","5","6","7","8","b"]];
+        //boardEnd = [];
+        //boardStart = [];
+        //boards = test(8, boards[0], boards[1]);
+      }while(getInversionCount(boards[0]) % 2 !== 0)
+      
+      alert(getInversionCount(boards[0]));
+      console.log(boards[0].toString());
+      run(boards[0], boards[1]);
+      //var boardStart = ["4","1","b","2","8","3","7","6","5"];
+      //test(8, boardStart, boardEnd);
+
+      
       
       //console.log(b.join(","));
     </script>

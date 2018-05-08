@@ -53,13 +53,18 @@ function State(state){
 
   self.CalculateScore2 = function(goal){
     var score = 0;
+    var lin = 0;
     for(var i = 0; i < self.board.length; i++){
       var pos = goal.indexOf(self.board[i].val);
-      if(i != pos && pos > -1){
+      if(i != pos && pos > -1 && self.board[i].val != "b"){
         score += Math.abs(parseInt(self.board[i].row) - parseInt(self.board[pos].row));
         score += Math.abs(parseInt(self.board[i].col) - parseInt(self.board[pos].col));
+        if((parseInt(self.board[pos].col) == parseInt(self.board[i].col)) || (parseInt(self.board[pos].row) == parseInt(self.board[i].row))){
+          lin++;
+        }
       }
     }
+    score += lin * 2;
     return score;
   }
 
