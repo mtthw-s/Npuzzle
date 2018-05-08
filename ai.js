@@ -62,22 +62,6 @@
 		  return RemoveIndexesFromArray(deadIndexes, states);
 		}
 
-		// self.checkDeadStates = function(array1d){
-		// 	for(var i = 0; i < deadStates.length; i++){
-		// 		var count = 0;
-		// 		var flat = deadStates[i].GetflatBoard();
-		// 		for(var j = 0; j < flat.length; j++){
-		// 			if(flat[j] == array1d[j]){
-		// 				count++;
-		// 			}
-		// 		}
-		// 		if(count == array1d.length){
-		// 			return i;
-		// 		}
-		// 	}
-		// 	return -1;
-		// }
-
 		self.ShuffleBoard = function(state){
 			var count = state.board.length * 2;
 			for(var i = 0; i < count; i++){
@@ -106,25 +90,13 @@
 			var deadMoves = [];
 			for(var i = 0; i < moves.length; i++){
 				var s = new State();
-				//s.setBoard(moves[i]);
 				s.board =  JSON.parse(JSON.stringify(moves[i]));
 				moves[i] = s;
 				moves[i].score = moves[i].CalculateScore2(goal, moves[i].GetflatBoard());
 				test.push(moves[i].GetflatBoard());
-				//var pos = self.checkDeadStates2(moves[i].GetflatBoard());
-				//if(pos > -1){
-					//deadMoves.push(pos);
-					//moves.splice(pos, 1);
-				//}
 			}
 			moves = RemoveDeadStates(moves);
-			//for(var i = 0; i < deadMoves.length; i++){
-				//moves.splice(deadMoves[i], 1);
-			//}
-			// moves.map(function(s){
-			// 	s.CalculateAndSetScore(goal);
-			// 	return s;
-			// });
+
 			moves.sort(function(a,b){
 				return a.score - b.score;
 			});

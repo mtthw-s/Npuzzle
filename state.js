@@ -1,14 +1,13 @@
 function State(state){
   var self = this;
   var oldState;
-  //var currentState;
   self.board = [];
-  //board = [{val:1, row:0, col:0}];
+
   self.score = 0;
   
   if(typeof state != 'undefined'){
     oldState = state;
-    board = JSON.parse(JSON.stringify(state.board));//state.board.slice(0);
+    board = JSON.parse(JSON.stringify(state.board));
   }
   
   self.setBoard = function(b){
@@ -70,7 +69,6 @@ function State(state){
 
   self.CalculateScore = function(goal, curr){
     var count = 0;
-    //var flatState = self.GetflatBoard();
     for(var i = 0; i < goal.length; i++){
       if(curr[i] == goal[i]){
         count++;
@@ -80,14 +78,10 @@ function State(state){
   }
 
   self.GetflatBoard = function(){
-    //var b = self.board.slice(0);
     var b = [];
     for(var i = 0; i < self.board.length; i++){
       b.push(self.board[i].val);
     }
-    // b.map(function(ele){
-    //   return ele = ele.val;
-    // });
     return b;
   }
   
@@ -114,35 +108,16 @@ function State(state){
     }
     var boards = [];
     for(var i = 0; i < possMoves.length; i++){
-      var tempBoard = JSON.parse(JSON.stringify(self.board));//Object.assign([], board);//board.slice(0);
+      var tempBoard = JSON.parse(JSON.stringify(self.board));
       var blankCell = FindBlank(tempBoard);
       var newCell = FindCell(tempBoard, possMoves[i].row, possMoves[i].col);
       var tempVal = newCell.val;
       newCell.val = blankCell.val;
       blankCell.val = tempVal;
       var s = new State();
-      //s.board = tempBoard;
       boards.push(JSON.parse(JSON.stringify(tempBoard)));
-      //s.board = tempBoard;
-      //s.oldState = oldState;
-      //possMoves[i] = s;
+
     }
-    // possMoves.map(function(move){
-    //   var tempBoard = board.slice(0);
-    //   var blankCell = FindBlank();
-    //   var newCell = FindCell(tempBoard, move.row, move.col);
-    //   var tempVal = newCell.val;
-    //   newCell.val = blankCell.val;
-    //   blankCell.val = tempVal;
-    //   var s = new State();
-    //   s.board = tempBoard;
-    //   s.oldState = oldState;
-    //   return s;
-    // });
-    //for(var i = 0; i < possMoves.length; i++){
-      //console.log(possMoves[i].GetflatBoard());
-    //}
-//    return possMoves;
     return boards;
   }
   

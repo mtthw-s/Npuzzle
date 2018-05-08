@@ -28,16 +28,6 @@
         }
         return count;
       }
-      
-      function test(num, start, end){
-        for(var i = 0; i < num; i++){
-          end.push((i + 1).toString());
-        }
-        end.push("b");
-        start = JSON.parse(JSON.stringify(end));
-        start = UI.Shuffle(start);
-        return [start, end];
-      }
 
       function Shuffle(state){
         
@@ -83,18 +73,12 @@
       var boards;
       UI.init("tblPuzzle");
       do{
-        boards = Setup(35);//[["1","2","6","5","3","8","b","7","4"],["1","2","3","4","5","6","7","8","b"]];
+        boards = Setup(8);
       }while(getInversionCount(boards[0]) % 2 !== 0)
       
       alert(getInversionCount(boards[0]));
       console.log(boards[0].toString());
       run(boards[0], boards[1]);
-      //var boardStart = ["4","1","b","2","8","3","7","6","5"];
-      //test(8, boardStart, boardEnd);
-
-      
-      
-      //console.log(b.join(","));
     </script>
  </body>
 </html>
