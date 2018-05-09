@@ -61,9 +61,13 @@
         //do{
           var path = [];
           var startTime = Date.now();
-          newState = AI.makeMove2(newState);
-          var time = "Time: " + ((Date.now() - startTime)/1000) + " secs";
           
+          //newState = AI.makeMove2(newState);
+          while(newState !== null && newState.score != 0){
+            newState = AI.makeMove2(newState);
+          }
+          var time = "Time: " + ((Date.now() - startTime)/1000) + " secs";
+          //if()
           UI.DrawBoard(newState.flatBoard);
           var ans = [];
           while(newState !== null){

@@ -120,6 +120,7 @@
 				return self.makeMove2(chosen);
 			}
 			//if(chosen.score)
+			return GetNextState();
 			var nextState = GetNextState();
 			if(nextState !== null){
 				return self.makeMove2(nextState);
