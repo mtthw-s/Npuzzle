@@ -11,7 +11,7 @@ function State(state){
     //board = JSON.parse(JSON.stringify(state.board));
     self.ParentId = state.Id;
   }
-  self.Id = GetId();
+  //self.Id = GetId();
   
   self.setBoard = function(b){
     self.board = b;

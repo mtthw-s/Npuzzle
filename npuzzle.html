@@ -39,6 +39,17 @@
 
       }
       
+      function shuffleInplace(a) {
+        var j, x, i;
+        for (i = a.length - 1; i > 0; i--) {
+          j = Math.floor(Math.random() * (i + 1));
+          x = a[i];
+          a[i] = a[j];
+          a[j] = x;
+        }
+        return a;
+      }
+      
       
       function run(start, end){
         var init = start.toString();
@@ -46,24 +57,24 @@
         var final;
         var b = UI.ReadBoard2();
         var newState = AI.createState(b, end);
-        do{
+        //do{
           var path = [];
+          var startTime = Date.now();
           newState = AI.makeMove2(newState);
-          debugger;
-          path = AI.GetPath(newState, path);
-          for(var i = 0; i < path.length; i++){
-            console.log(path[i].GetFlatString());
+          var time = "Time: " + ((Date.now() - startTime)/1000) + " secs";
+          
+          UI.DrawBoard(newState.GetflatBoard());
+          var ans = [];
+          while(newState !== null){
+            ans.push(newState);
+            newState = newState.parentState;
           }
-          console.log(newState.GetFlatString());
-          if(newState !== null){
-            UI.DrawBoard(newState.GetflatBoard());
-            //console.log(newState.GetflatBoard().toString() + " score:" + newState.score + " inversion:" + getInversionCount(newState.GetflatBoard()));
-            final = newState.GetflatBoard();
+          for(var j = ans.length - 1; j >= 0; j--){
+            UI.DrawBoard(ans[j].GetflatBoard());
+            //console.log(ans[j].GetFlatString());
+            document.write(ans[j].GetFlatString());
           }
-          else{
-            alert("Your starting array was impossible to solve! " + getInversionCount(final) + "\n" + init);
-          }
-        }while(newState !== null && newState.score > 0);
+          alert("Solved in " + ans.length + " moves\n" + time);
       }
       
       function Setup(num){
@@ -77,7 +88,8 @@
         UI.DrawBoard(start);
         var b = UI.ReadBoard2();
         var state = new State();
-        state.board = b;
+        state.board = b;//shuffleInplace(b);
+        //debugger;
         state = Shuffle(state);
         return [state.GetflatBoard(), end];
       }
@@ -89,8 +101,10 @@
       }while(getInversionCount(boards[0]) % 2 !== 0)
       //var initial = boards[0].toString()
       //alert(getInversionCount(boards[0]));
-      console.log(boards[0].toString() + " InvertionCount:" + getInversionCount(boards[0]));
+      //console.log(boards[0].toString() + " InvertionCount:" + getInversionCount(boards[0]));
+      document.write("Start: " + boards[0].toString() + " InvertionCount:" + getInversionCount(boards[0]));
       run(boards[0], boards[1]);
+      
     </script>
  </body>
 </html>

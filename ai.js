@@ -64,7 +64,7 @@
 		}
 
 		self.ShuffleBoard = function(state){
-			var count = state.board.length * 2;
+			var count = state.board.length;
 			for(var i = 0; i < count; i++){
 				var moves = state.FindNewPossibleStates();
 				state = GetRandomState(moves);
