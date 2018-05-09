@@ -47,8 +47,10 @@
         var b = UI.ReadBoard2();
         var newState = AI.createState(b, end);
         do{
-          newState = AI.makeMove(newState);
-          
+          var path = [];
+          newState = AI.makeMove2(newState);
+          debugger;
+          path = AI.GetPath(newState, path);
           if(newState !== null){
             UI.DrawBoard(newState.GetflatBoard());
             console.log(newState.GetflatBoard().toString() + " score:" + newState.score + " inversion:" + getInversionCount(newState.GetflatBoard()));

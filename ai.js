@@ -84,6 +84,62 @@
 			return s;
 		}
 
+		self.GetPath = function(state, array){
+			if(state.parentState !== null){
+				array.push(state.parentState);
+				self.GetPath(state.parentState, array);
+			}
+			else{
+				return array;
+			}
+		};
+
+		self.makeMove2 = function(state){
+			deadStates.push(state);
+			var states = state.FindNewPossibleStates2();
+			for(var i = 0; i < states.length; i++){
+				states[i].score = states[i].CalculateScore2(goal, states[i].GetflatBoard());
+			}
+			states = RemoveDeadStates(states);
+			states.sort(function(a,b){
+				return a.score - b.score;
+			});
+			if(states.length > 0){
+				for(var j = 0; j < states.length; j++){
+					if(states[j].score == 0){
+						return states[j];
+					}
+					AddTofutureStates(states[j]);
+				}
+			}
+			var nextState = GetNextState();
+			if(nextState != null){
+				self.makeMove2(nextState);				
+			}
+			else{
+				return null;
+			}
+		}
+
+		function GetNextState(){
+			if(futureStates.length > 0){
+				return futureStates.pop();
+			}
+			return null;
+		}
+
+		function AddTofutureStates(state){
+			for(var i = 0; i < futureStates.length; i++){
+				if(futureStates[i].GetFlatString() == state.GetFlatString()){
+					return;
+				}
+			}
+			futureStates.push(state);
+			futureStates.sort(function(a,b){
+				return b.score - a.score;
+			});
+		}
+
 		self.makeMove = function(state){
 			var moves = state.FindNewPossibleStates();
 			var test = [];
@@ -101,7 +157,7 @@
 				return a.score - b.score;
 			});
 			if(moves.length > 0){
-				deadStates.push(moves[0]);
+				//deadStates.push(moves[0]);
 				return moves[0];
 			}
 			return null;

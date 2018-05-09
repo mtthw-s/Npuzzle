@@ -1,14 +1,17 @@
 function State(state){
   var self = this;
-  var oldState;
+  self.parentState = null;
   self.board = [];
-
+  self.Id;
+  self.ParentId;
   self.score = 0;
   
   if(typeof state != 'undefined'){
-    oldState = state;
-    board = JSON.parse(JSON.stringify(state.board));
+    self.parentState = state;
+    //board = JSON.parse(JSON.stringify(state.board));
+    self.ParentId = state.Id;
   }
+  self.Id = GetId();
   
   self.setBoard = function(b){
     self.board = b;
@@ -16,6 +19,12 @@ function State(state){
 
   self.getBoard = function(){
     return board;
+  }
+
+  function GetId() {
+    return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+      (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    )
   }
 
   function FindBlank(b){
@@ -84,6 +93,10 @@ function State(state){
     }
     return b;
   }
+
+  self.GetFlatString = function(){
+    self.GetflatBoard().toString();
+  }
   
   self.FindNewPossibleStates = function(){
     var blank = FindBlank();
@@ -114,8 +127,46 @@ function State(state){
       var tempVal = newCell.val;
       newCell.val = blankCell.val;
       blankCell.val = tempVal;
-      var s = new State();
+      //var s = new State(self);
+      //s.board = JSON.parse(JSON.stringify(tempBoard));
       boards.push(JSON.parse(JSON.stringify(tempBoard)));
+
+    }
+    return boards;
+  }
+
+  self.FindNewPossibleStates2 = function(){
+    var blank = FindBlank();
+    var limit = Math.sqrt(self.board.length) - 1;
+    var possMoves = [];
+    
+    if(blank.row < limit){
+      //move down
+      possMoves.push({row: parseInt(blank.row) + 1, col: blank.col});
+    }
+    if(blank.col < limit){
+      //move right
+      possMoves.push({row: blank.row, col: parseInt(blank.col) + 1});
+    }
+    if(blank.row > 0){
+      //move up
+      possMoves.push({row: parseInt(blank.row) - 1, col: blank.col});
+    }
+    if(blank.col > 0){
+      //move left
+      possMoves.push({row: blank.row, col: parseInt(blank.col) - 1});
+    }
+    var boards = [];
+    for(var i = 0; i < possMoves.length; i++){
+      var tempBoard = JSON.parse(JSON.stringify(self.board));
+      var blankCell = FindBlank(tempBoard);
+      var newCell = FindCell(tempBoard, possMoves[i].row, possMoves[i].col);
+      var tempVal = newCell.val;
+      newCell.val = blankCell.val;
+      blankCell.val = tempVal;
+      var s = new State(self);
+      s.board = JSON.parse(JSON.stringify(tempBoard));
+      boards.push(s);
 
     }
     return boards;
