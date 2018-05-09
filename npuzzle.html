@@ -57,6 +57,7 @@
         var final;
         var b = UI.ReadBoard2();
         var newState = AI.createState(b, end);
+        //newState.score =
         //do{
           var path = [];
           var startTime = Date.now();
@@ -104,7 +105,7 @@
       //var initial = boards[0].toString()
       //alert(getInversionCount(boards[0]));
       //console.log(boards[0].toString() + " InvertionCount:" + getInversionCount(boards[0]));
-      document.write("Start: " + boards[0].toString() + " InvertionCount:" + getInversionCount(boards[0]));
+      document.write("Start: " + boards[0].toString() + " InvertionCount:" + getInversionCount(boards[0]) + "</br>");
       run(boards[0], boards[1]);
       
     </script>

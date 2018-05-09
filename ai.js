@@ -96,6 +96,9 @@
 		};
 
 		self.makeMove2 = function(state){
+		  if(state.score === 0){
+		    return state;
+		  }
 			deadStates.push(state.flatString);
 			var states = state.FindNewPossibleStates2();
 			for(var i = 0; i < states.length; i++){
@@ -103,16 +106,20 @@
 			}
 			states = RemoveDeadStates(states);
 			states.sort(function(a,b){
-				return a.score - b.score;
+				return b.score - a.score;
 			});
+			var chosen;
 			if(states.length > 0){
+			  chosen = states.pop();
 				for(var j = 0; j < states.length; j++){
 					if(states[j].score === 0){
 						return states[j];
 					}
 					AddTofutureStates(states[j]);
 				}
+				return self.makeMove2(chosen);
 			}
+			//if(chosen.score)
 			var nextState = GetNextState();
 			if(nextState !== null){
 				return self.makeMove2(nextState);
@@ -170,6 +177,7 @@
 		  goal = end;
 		  var state = new State();
 		  state.setBoard(start);
+		  state.score = state.CalculateScore2(goal, state.flatBoard);
 		  return state;
 		};
 
