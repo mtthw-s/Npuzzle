@@ -19,17 +19,17 @@
 		
 		self.checkDeadStates2 = function(array1d){
 			var test = [];
-			for(var i = 0; i < deadStates.length; i++){
-				test.push(deadStates[i].GetflatBoard().toString());
-			}
-			return test.indexOf(array1d.toString());
+			//for(var i = 0; i < deadStates.length; i++){
+				//test.push(deadStates[i].GetflatBoard().toString());
+			//}
+			return deadStates.indexOf(array1d.toString());
 		};
 		
-		function FindDups(s){
-			var sString = s.GetflatBoard().toString();
-			var aString = array1d.toString();
-			return sString == aString;
-    }
+		//function FindDups(s){
+			//var sString = s.GetflatBoard().toString();
+			//var aString = array1d.toString();
+			//return sString == aString;
+    //}
     
     function RemoveIndexesFromArray(indexes, array){
       var newArray = [];
@@ -51,11 +51,11 @@
 		function RemoveDeadStates(states){
 		  var deadIndexes = [];
 		  var test = [];
-			for(var i = 0; i < deadStates.length; i++){
-				test.push(deadStates[i].GetflatBoard().toString());
-			}
+			//for(var i = 0; i < deadStates.length; i++){
+				//test.push(deadStates[i].GetflatBoard().toString());
+			//}
 		  for(var j = 0; j < states.length; j++){
-		    var pos = test.indexOf(states[j].GetflatBoard().toString());
+		    var pos = deadStates.indexOf(states[j].flatString);
 		    if(pos > -1){
 		      deadIndexes.push(j);
 		    }
@@ -81,7 +81,7 @@
 		function GetRandomState(mvs){
 			var rnd = GetRandomNumber(0, mvs.length - 1);
 			var s = new State();
-			s.board = mvs[rnd];
+			s.setBoard(mvs[rnd]);
 			return s;
 		}
 
@@ -96,10 +96,10 @@
 		};
 
 		self.makeMove2 = function(state){
-			deadStates.push(state);
+			deadStates.push(state.flatString);
 			var states = state.FindNewPossibleStates2();
 			for(var i = 0; i < states.length; i++){
-				states[i].score = states[i].CalculateScore2(goal, states[i].GetflatBoard());
+				states[i].score = states[i].CalculateScore2(goal, states[i].flatBoard);
 			}
 			states = RemoveDeadStates(states);
 			states.sort(function(a,b){
@@ -131,9 +131,9 @@
 
 		function AddTofutureStates(state){
 			for(var i = 0; i < futureStates.length; i++){
-			  var futureFlat = futureStates[i].GetFlatString();
-			  var stateFlat = state.GetFlatString();
-				if(futureStates[i].GetFlatString() == state.GetFlatString()){
+			  var futureFlat = futureStates[i].flatString;
+			  var stateFlat = state.flatString;
+				if(futureStates[i].flatString == state.flatString){
 					return;
 				}
 			}
@@ -149,10 +149,10 @@
 			var deadMoves = [];
 			for(var i = 0; i < moves.length; i++){
 				var s = new State();
-				s.board =  JSON.parse(JSON.stringify(moves[i]));
+				s.setBoard(JSON.parse(JSON.stringify(moves[i])));
 				moves[i] = s;
-				moves[i].score = moves[i].CalculateScore2(goal, moves[i].GetflatBoard());
-				test.push(moves[i].GetflatBoard());
+				moves[i].score = moves[i].CalculateScore2(goal, moves[i].flatBoard);
+				test.push(moves[i].flatBoard);
 			}
 			moves = RemoveDeadStates(moves);
 
@@ -169,7 +169,7 @@
 		self.createState = function(start, end){
 		  goal = end;
 		  var state = new State();
-		  state.board = start;
+		  state.setBoard(start);
 		  return state;
 		};
 

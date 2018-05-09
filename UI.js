@@ -57,7 +57,7 @@
 		  for(var i = 0; i < table.rows.length; i++){
 		    var row = table.rows[i];
 		    for(var j = 0; j < row.cells.length; j++){
-		      board.push(row.cells[j].childNodes[0].value);
+		      board.push(parseInt(row.cells[j].childNodes[0].value));
 		    }
 		  }
 		  return board;
@@ -70,7 +70,7 @@
 		    var row = table.rows[i];
 		    for(var j = 0; j < row.cells.length; j++){
 		      var pos = row.cells[j].childNodes[0].id.split(".");
-		      board.push({val: row.cells[j].childNodes[0].value, row: pos[0], col: pos[1]});
+		      board.push({val: parseInt(row.cells[j].childNodes[0].value), row: pos[0], col: pos[1]});
 		    }
 		  }
 		  return board;

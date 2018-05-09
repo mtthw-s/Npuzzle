@@ -5,6 +5,8 @@ function State(state){
   self.Id;
   self.ParentId;
   self.score = 0;
+  self.flatString;
+  self.flatBoard;
   
   if(typeof state != 'undefined'){
     self.parentState = state;
@@ -15,6 +17,9 @@ function State(state){
   
   self.setBoard = function(b){
     self.board = b;
+    self.flatBoard = self.GetflatBoard();
+    self.flatString = self.flatBoard.toString();
+    
   }
 
   self.getBoard = function(){
@@ -31,12 +36,12 @@ function State(state){
     var blank;
     if(typeof b != 'undefined'){
       blank = b.find(function(cell){
-        return cell.val == "b";
+        return cell.val == b.length;//9;
       });
     }
     else{
       blank = self.board.find(function(cell){
-        return cell.val == "b";
+        return cell.val == self.board.length;//9;
       });
     }
     return blank;
@@ -64,10 +69,10 @@ function State(state){
     var lin = 0;
     for(var i = 0; i < self.board.length; i++){
       var pos = goal.indexOf(self.board[i].val);
-      if(i != pos && pos > -1 && self.board[i].val != "b"){
+      if(i != pos && pos > -1){
         score += Math.abs(parseInt(self.board[i].row) - parseInt(self.board[pos].row));
         score += Math.abs(parseInt(self.board[i].col) - parseInt(self.board[pos].col));
-        if((parseInt(self.board[pos].col) == parseInt(self.board[i].col)) || (parseInt(self.board[pos].row) == parseInt(self.board[i].row)) && self.board[pos].val != "b"){
+        if((parseInt(self.board[pos].col) == parseInt(self.board[i].col)) || (parseInt(self.board[pos].row) == parseInt(self.board[i].row)) && self.board[pos].val != self.board.length){
           lin++;
         }
       }
@@ -105,19 +110,19 @@ function State(state){
     
     if(blank.row < limit){
       //move down
-      possMoves.push({row: parseInt(blank.row) + 1, col: blank.col});
+      possMoves.push({row: parseInt(blank.row) + 1, col: parseInt(blank.col)});
     }
     if(blank.col < limit){
       //move right
-      possMoves.push({row: blank.row, col: parseInt(blank.col) + 1});
+      possMoves.push({row: parseInt(blank.row), col: parseInt(blank.col) + 1});
     }
     if(blank.row > 0){
       //move up
-      possMoves.push({row: parseInt(blank.row) - 1, col: blank.col});
+      possMoves.push({row: parseInt(blank.row) - 1, col: parseInt(blank.col)});
     }
     if(blank.col > 0){
       //move left
-      possMoves.push({row: blank.row, col: parseInt(blank.col) - 1});
+      possMoves.push({row: parseInt(blank.row), col: parseInt(blank.col) - 1});
     }
     var boards = [];
     for(var i = 0; i < possMoves.length; i++){
@@ -165,7 +170,7 @@ function State(state){
       newCell.val = blankCell.val;
       blankCell.val = tempVal;
       var s = new State(self);
-      s.board = JSON.parse(JSON.stringify(tempBoard));
+      s.setBoard(JSON.parse(JSON.stringify(tempBoard)));
       boards.push(s);
 
     }
