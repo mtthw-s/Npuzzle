@@ -64,7 +64,7 @@
 		}
 
 		self.ShuffleBoard = function(state){
-			var count = state.board.length;
+			var count = (state.board.length * state.board.length) * 2;
 			for(var i = 0; i < count; i++){
 				var moves = state.FindNewPossibleStates();
 				state = GetRandomState(moves);
@@ -96,6 +96,7 @@
 		};
 
 		self.makeMove2 = function(state){
+			//debugger;
 		  if(state.score === 0){
 		    return state;
 		  }
@@ -105,32 +106,56 @@
 				states[i].score = states[i].CalculateScore2(goal, states[i].flatBoard);
 			}
 			states = RemoveDeadStates(states);
-			states.sort(function(a,b){
-				return b.score - a.score;
-			});
-			var chosen;
-			if(states.length > 0){
-			  chosen = states.pop();
+			//states.sort(function(a,b){
+				//return b.score - a.score;
+			//});
+			//var chosen;
+			//if(states.length > 0){
+			  //chosen = states.pop();
 				for(var j = 0; j < states.length; j++){
-					if(states[j].score === 0){
-						return states[j];
-					}
+					//if(states[j].score === 0){
+						//return states[j];
+					//}
 					AddTofutureStates(states[j]);
 				}
-				return self.makeMove2(chosen);
-			}
+				return GetNextState();
+				//futureStates.sort(function(a,b){
+					//return a.score - b.score;
+				//})
+				//if(futureStates.length > 0){
+					//if(chosen.score < futureStates[futureStates.length]){
+						//return chosen;
+					//}
+					//else{
+						//futureStates.sort(function(a,b){
+							//return b.score - a.score;
+						//})
+						//var c = futureStates.pop();
+						//AddTofutureStates(chosen);
+						//return c;
+					//}
+				//}
+				//return chosen;
+			//}
+			//futureStates.sort(function(a,b){
+				//return b.score - a.score;
+			//})
+			//return futureStates.pop();
 			//if(chosen.score)
-			return GetNextState();
-			var nextState = GetNextState();
-			if(nextState !== null){
-				return self.makeMove2(nextState);
-			}
-			else{
-				return deadStates;
-			}
+			//return GetNextState();
+			//var nextState = GetNextState();
+			//if(nextState !== null){
+				//return self.makeMove2(nextState);
+			//}
+			//else{
+				//return deadStates;
+			//}
 		};
 
 		function GetNextState(){
+			futureStates.sort(function(a,b){
+				return b.score - a.score;
+			})
 			if(futureStates.length > 0){
 				return futureStates.pop();
 			}
@@ -146,9 +171,9 @@
 				}
 			}
 			futureStates.push(state);
-			futureStates.sort(function(a,b){
-				return b.score - a.score;
-			});
+			// futureStates.sort(function(a,b){
+			// 	return b.score - a.score;
+			// });
 		}
 
 		self.makeMove = function(state){
@@ -175,6 +200,8 @@
 		}
 
 		self.createState = function(start, end){
+			deadStates = [];
+			futureStates = [];
 		  goal = end;
 		  var state = new State();
 		  state.setBoard(start);

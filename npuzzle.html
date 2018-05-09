@@ -64,6 +64,7 @@
           
           //newState = AI.makeMove2(newState);
           while(newState !== null && newState.score != 0){
+            console.log(newState.flatString + " " + newState.score);
             newState = AI.makeMove2(newState);
           }
           var time = "Time: " + ((Date.now() - startTime)/1000) + " secs";
@@ -74,12 +75,13 @@
             ans.push(newState);
             newState = newState.parentState;
           }
+          document.writeln("Solved in " + ans.length + " moves\n" + time);
           for(var j = ans.length - 1; j >= 0; j--){
             UI.DrawBoard(ans[j].flatBoard);
             //console.log(ans[j].GetFlatString());
             document.write(ans[j].flatString + "</br>");
           }
-          alert("Solved in " + ans.length + " moves\n" + time);
+          //alert("Solved in " + ans.length + " moves\n" + time);
       }
       
       function Setup(num){
@@ -88,28 +90,31 @@
         for(var i = 0; i < num; i++){
           end.push((i + 1));
         }
-        //end.push(9);
         start = JSON.parse(JSON.stringify(end));
         UI.DrawBoard(start);
         var b = UI.ReadBoard2();
         var state = new State();
-        state.setBoard(shuffleInplace(b));//shuffleInplace(b);
-        //debugger;
-        //state = Shuffle(state);
+        //state.setBoard(shuffleInplace(b));
+        state.setBoard(b);
+        state = Shuffle(state);
         return [state.flatBoard, end];
       }
       
       var boards;
       UI.init("tblPuzzle");
       do{
-        boards = Setup(9);
+        boards = Setup(25);
         //debugger;
+        console.log("Start: " + boards[0].toString() + " InvertionCount:" + getInversionCount(boards[0]));
+        //boards = [[1,8,3,4,6,7,5,9,2],[1,2,3,4,5,6,7,8,9]];
+        //boards = [[5,1,4,7,9,8,6,2,3],[1,2,3,4,5,6,7,8,9]];
         //alert(getInversionCount(boards[0]));
       }while(getInversionCount(boards[0]) % 2 !== 0 || getInversionCount(boards[0]) == 0 )
       //var initial = boards[0].toString()
       //alert(getInversionCount(boards[0]));
       //console.log(boards[0].toString() + " InvertionCount:" + getInversionCount(boards[0]));
       document.write("Start: " + boards[0].toString() + " InvertionCount:" + getInversionCount(boards[0]) + "</br>");
+      //alert("Start: " + boards[0].toString() + " InvertionCount:" + getInversionCount(boards[0]) + "</br>");
       run(boards[0], boards[1]);
       
     </script>
