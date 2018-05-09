@@ -95,7 +95,7 @@ function State(state){
   }
 
   self.GetFlatString = function(){
-    self.GetflatBoard().toString();
+    return self.GetflatBoard().toString();
   }
   
   self.FindNewPossibleStates = function(){

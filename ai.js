@@ -7,7 +7,7 @@
 
 		self.AddToDeadStates = function(s){
 			deadStates.push(s);
-		}
+		};
 
 		self.checkDeadStates = function(array1d){
 			return deadStates.findIndex(function(s){
@@ -15,14 +15,15 @@
 				var aString = array1d.toString();
 				return sString == aString;
 			});
-		}
+		};
+		
 		self.checkDeadStates2 = function(array1d){
 			var test = [];
 			for(var i = 0; i < deadStates.length; i++){
 				test.push(deadStates[i].GetflatBoard().toString());
 			}
 			return test.indexOf(array1d.toString());
-		}
+		};
 		
 		function FindDups(s){
 			var sString = s.GetflatBoard().toString();
@@ -87,7 +88,7 @@
 		self.GetPath = function(state, array){
 			if(state.parentState !== null){
 				array.push(state.parentState);
-				self.GetPath(state.parentState, array);
+				return self.GetPath(state.parentState, array);
 			}
 			else{
 				return array;
@@ -106,20 +107,20 @@
 			});
 			if(states.length > 0){
 				for(var j = 0; j < states.length; j++){
-					if(states[j].score == 0){
+					if(states[j].score === 0){
 						return states[j];
 					}
 					AddTofutureStates(states[j]);
 				}
 			}
 			var nextState = GetNextState();
-			if(nextState != null){
-				self.makeMove2(nextState);				
+			if(nextState !== null){
+				return self.makeMove2(nextState);
 			}
 			else{
-				return null;
+				return deadStates;
 			}
-		}
+		};
 
 		function GetNextState(){
 			if(futureStates.length > 0){
@@ -130,6 +131,8 @@
 
 		function AddTofutureStates(state){
 			for(var i = 0; i < futureStates.length; i++){
+			  var futureFlat = futureStates[i].GetFlatString();
+			  var stateFlat = state.GetFlatString();
 				if(futureStates[i].GetFlatString() == state.GetFlatString()){
 					return;
 				}
@@ -168,7 +171,7 @@
 		  var state = new State();
 		  state.board = start;
 		  return state;
-		}
+		};
 
 
 	}

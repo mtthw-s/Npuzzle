@@ -51,9 +51,13 @@
           newState = AI.makeMove2(newState);
           debugger;
           path = AI.GetPath(newState, path);
+          for(var i = 0; i < path.length; i++){
+            console.log(path[i].GetFlatString());
+          }
+          console.log(newState.GetFlatString());
           if(newState !== null){
             UI.DrawBoard(newState.GetflatBoard());
-            console.log(newState.GetflatBoard().toString() + " score:" + newState.score + " inversion:" + getInversionCount(newState.GetflatBoard()));
+            //console.log(newState.GetflatBoard().toString() + " score:" + newState.score + " inversion:" + getInversionCount(newState.GetflatBoard()));
             final = newState.GetflatBoard();
           }
           else{
