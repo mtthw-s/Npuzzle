@@ -59,7 +59,7 @@
           var path = [];
           var startTime = Date.now();
           while(newState !== null && newState.score != 0){
-            console.log(newState.flatString + " " + newState.score);
+            console.log(newState.flatString + " score:" + newState.score + " distance: " + newState.distance);
             newState = AI.makeMove2(newState);
           }
           var time = "Time: " + ((Date.now() - startTime)/1000) + " secs";
@@ -69,10 +69,10 @@
             ans.push(newState);
             newState = newState.parentState;
           }
-          document.writeln("Solved in " + ans.length + " moves\n" + time);
+          document.writeln("Solved in " + ans.length + " moves\n" + time + "</br>");
           for(var j = ans.length - 1; j >= 0; j--){
             UI.DrawBoard(ans[j].flatBoard);
-            document.write(ans[j].flatString + "</br>");
+            document.write(ans[j].flatString + " score: " + ans[j].score + " distance: " + ans[j].distance + "</br>");
           }
       }
       

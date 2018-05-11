@@ -63,6 +63,11 @@
 		  return board;
 		}
 		
+		/*
+		Public function
+		This is the correct way to read the board. It creates a board of objects with their coordinates in the grid
+		*/
+		
 		self.ReadBoard2 = function(){
 		  var table = document.getElementById(tblID);
 		  var board = [];

@@ -206,6 +206,7 @@
 		  var state = new State();
 		  state.setBoard(start);
 		  state.score = state.CalculateScore2(goal, state.flatBoard);
+		  //debugger;
 		  return state;
 		};
 

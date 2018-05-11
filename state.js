@@ -7,11 +7,14 @@ function State(state){
   self.score = 0;
   self.flatString;
   self.flatBoard;
+  self.done = false;
+  self.distance = 0;
   
   if(typeof state != 'undefined'){
     self.parentState = state;
     //board = JSON.parse(JSON.stringify(state.board));
     self.ParentId = state.Id;
+    self.distance = state.distance + 1;
   }
   //self.Id = GetId();
   
@@ -78,6 +81,7 @@ function State(state){
       }
     }
     score += lin * 2;
+    //score += self.distance;
     return score;
   }
 
