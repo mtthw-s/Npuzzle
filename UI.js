@@ -21,7 +21,7 @@
 	  */
 	  self.DrawBoard = function(brdArray){
 		  var rowLength = Math.sqrt(brdArray.length);
-		  var tbl = document.getElementById(tblID);
+		  var tbl = document.getElementById("tblPuzzle");
 		  var startVals = 0;
 		  
 		  tbl.innerHTML = "";
@@ -91,7 +91,7 @@
 		  for(var i = 0; i < values.length; i++){
 		    var cell = row.insertCell(i);
 		    //This is where the object is made, any HTML element can work.
-		    cell.innerHTML = "<input type='button' id='" + rowIndex + "." + i + "' value='" + values[i] + "'>";
+		    cell.innerHTML = "<input class='cell' type='button' id='" + rowIndex + "." + i + "' value='" + values[i] + "'>";
 		  }
 		}
 		
